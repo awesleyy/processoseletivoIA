@@ -84,7 +84,7 @@ cd nome-do-repositorio
 
 ### 3️⃣ Preparação do Ambiente de Execução
 
-Você pode executar o projeto de **duas formas**.
+Você pode executar o projeto de **Três formas**. Escolha apenas uma.
 
 
 
