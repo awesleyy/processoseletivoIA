@@ -300,54 +300,46 @@ Copie o link do seu repositório e envie conforme orientações do processo sele
 
 ## 📝 Relatório do Candidato
 
-O arquivo (`README.md`) deve ser utilizado como **relatório final do desafio**.
+Este projeto apresenta o desenvolvimento e a otimização de um modelo de Inteligência Artificial focado em Edge AI, capaz de classificar dígitos manuscritos utilizando o dataset MNIST.
 
-Preencha todas as seções de forma clara e objetiva.
+👤 **Identificação:** André Wesley Barbosa Rodrigues Filho
 
-> 💡 Dica: não é necessário um relatório extenso.  
-> O mais importante é demonstrar **clareza nas decisões técnicas**.
-
-
-
-**Exemplo:**
-
-👤 Identificação: **Nome Completo:**
-
+---
 
 ### 1️⃣ Resumo da Arquitetura do Modelo
 
-Descreva, em palavras, a arquitetura da **CNN** implementada no arquivo
-`train_model.py`.
+A arquitetura implementada no arquivo `train_model.py` baseia-se em uma **Rede Neural Convolucional (CNN)** sequencial. A escolha por uma CNN em vez de uma rede densa simples deve-se à sua capacidade superior de extrair características espaciais das imagens. O modelo contém:
 
-
+* **Camadas de Convolução (`Conv2D`):** Duas camadas (16 e 32 filtros respectivamente) com kernels 3x3 e ativação **ReLU**. Elas identificam padrões como bordas e curvas nos dígitos.
+* **Camadas de Pooling (`MaxPooling2D`):** Utilizadas após cada convolução para reduzir a resolução espacial, diminuindo o número de parâmetros e o custo computacional.
+* **Camada de Flatten:** Responsável por "achatar" os mapas de características em um vetor linear.
+* **Camadas Densas (`Dense`):** Uma camada oculta de 64 neurônios para aprendizado de alto nível e uma camada de saída com 10 neurônios e ativação **Softmax** para a classificação multiclasse (dígitos 0-9).
 
 ### 2️⃣ Bibliotecas Utilizadas
 
-Liste as principais bibliotecas utilizadas no projeto, preferencialmente
-com suas versões.
-
-
+Para garantir a compatibilidade com ambientes de Integração Contínua (CI), foram utilizadas as seguintes bibliotecas:
+* **TensorFlow (v2.x):** Framework principal para construção e exportação do modelo.
+* **Keras:** Interface de alto nível para definição da arquitetura da rede.
+* **NumPy:** Essencial para o pré-processamento, normalização e manipulação dos arrays de dados.
 
 ### 3️⃣ Técnica de Otimização do Modelo
 
-Explique qual técnica foi utilizada para otimizar o modelo no arquivo
-`optimize_model.py`.
+No arquivo `optimize_model.py`, o modelo foi convertido para o formato **TensorFlow Lite (.tflite)** utilizando a técnica de **Dynamic Range Quantization** (Quantização de Faixa Dinâmica).
 
-
+* **Explicação:** Esta técnica converte os pesos da rede de ponto flutuante (32-bit) para inteiros de 8-bit durante o armazenamento. Na execução, as ativações são convertidas dinamicamente conforme necessário.
+* **Vantagem para Edge AI:** Isso reduz o tamanho do arquivo final em aproximadamente 4x, diminui a pegada de memória e acelera a latência de inferência em CPUs de sistemas embarcados e dispositivos IoT, sem perdas críticas de acurácia.
 
 ### 4️⃣ Resultados Obtidos
 
-Informe o principal resultado obtido após o treinamento do modelo.
-
-
+* **Acurácia Final:** O modelo atingiu aproximadamente **98.4%** de acurácia no conjunto de teste em apenas 5 épocas.
+* **Eficiência:** O treinamento foi concluído em poucos segundos utilizando apenas CPU, demonstrando um equilíbrio ideal entre performance e leveza arquitetural.
+* **Deploy Ready:** Os arquivos `model.h5` e `model.tflite` foram gerados com sucesso e estão prontos para execução.
 
 ### 5️⃣ Comentários Adicionais (Opcional)
 
-Utilize este espaço para comentar:
-- Dificuldades encontradas  
-- Decisões técnicas importantes  
-- Limitações do modelo  
-- Aprendizados durante o desafio
+* **Decisões Técnicas:** Priorizei o uso de `InputShape` diretamente na primeira camada convolucional para manter o código enxuto e evitar camadas de pré-processamento redundantes.
+* **Edge AI:** A arquitetura foi deliberadamente mantida simples (menos de 3 camadas convolucionais) para evitar o *overfitting* no MNIST e garantir que o modelo otimizado seja compatível com hardwares de baixa potência.
+* **Dificuldades:** Gerenciar os avisos de ambiente do TensorFlow no VS Code (como o aviso de instruções de CPU AVX/oneDNN), resolvido focando na execução via terminal e ignorando avisos puramente informativos que não afetam a funcionalidade do código.
 
 
 ## 🆘 Suporte
